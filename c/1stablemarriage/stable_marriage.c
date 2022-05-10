@@ -1,60 +1,74 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-#define unsigned int UI
-
-UI N;
-int i, j; 
-
-UI** alloc_matrix(UI side)
+unsigned int** alloc_matrix(unsigned int side)
 {
-	UI **matrix;
-	table = calloc(n, sizeof(UI*));
+	int i;
+	unsigned int **matrix;
+	matrix = calloc(side, sizeof(unsigned int*));
 	for (i = 0; i < side; i++) 
 	{
-		table[i] = calloc(side, sizeof(UI));
+		matrix[i] = calloc(side, sizeof(unsigned int));
 	}
 	return matrix;
 }
 
-void free_matrix(UI** matrix, UI side) 
+void free_matrix(unsigned int** matrix, unsigned int side) 
 {
+	int i;
 	for (i = 0; i < side; i++) {
 		free(matrix[i]);
 	}
 	free(matrix);
 }
 
+void print_matrix(unsigned int** matrix, unsigned int side) 
+{
+	int i, j;
+	for (i = 0; i < side; i++)
+	{
+		for (j = 0; j < side; j++) 
+			printf("%u\t", matrix[i][j]);
+		printf("\n");
+	}
+}
 
 int main()
 {
-	scanf("%d", &N);
+	int i, j;
+	unsigned int N;
+	scanf("%u", &N);
 	
-	UI **men;
-	UI **women;
+	unsigned int **women;
+	unsigned int **men;
 	
-	men = alloc_matrix(N);
 	women = alloc_matrix(N);
+	men = alloc_matrix(N);
 	
-	persons = calloc(N, sizeof(UI));
-	UI person; 
+	unsigned int *persons;
+	persons = calloc(N, sizeof(unsigned int));
 	
-	UI temp;
+	unsigned int person; 	
+	unsigned int temp;
+
 	for (i = 0; i < 2*N; i++) {
-		person = scanf("%u", &person);
-		person -= 1;
+		scanf("%u", &person);
 		for (j = 0; j < N; j++) {
-			temp = scanf("%u", &temp);
-			temp -= 1;
-			if (persons[person] > 0) // first women than men
-				women[person][j] = temp;
+			scanf("%u", &temp);
+			
+			if (persons[person-1] > 0) // first women then men
+				women[person-1][j] = temp-1;
 			else
-				men[person][j] = temp;
+				men[person-1][j] = temp-1;
 		}
-		persons[person] += 1	
+		persons[person-1] += 1;
 	}
 	
-	free_matrix(men, N);
+	print_matrix(women, N);	
+	print_matrix(men, N);	
+
 	free_matrix(women, N);
+	free_matrix(men, N);
 	return 0;
 }
 
